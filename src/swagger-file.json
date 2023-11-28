@@ -1,0 +1,16 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "bank-transfer-api",
+    "description": "Api para transferencia bancária",
+    "termsOfService": "https://localhost:9000/terms",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:9000",
+      "description": "Rota da aplicação em serviço local"
+    }
+  ],
+  "paths": {}
+}
