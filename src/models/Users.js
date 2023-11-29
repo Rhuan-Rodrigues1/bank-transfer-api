@@ -20,12 +20,12 @@ const Users = database.define("users", {
   cpf: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: false,
+    allowNull: true,
   },
   cnpj: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: false,
+    allowNull: true,
   },
   email: {
     type: Sequelize.STRING,
