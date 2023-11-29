@@ -28,6 +28,7 @@ process.on("uncaughtException", (error) => {
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
 
+    await sequelize.sync();
     const signals = ["SIGTERM", "SIGINT", "SIGQUIT"];
 
     for (const signal of signals) {
