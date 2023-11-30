@@ -10,6 +10,8 @@ async function httpCall() {
 
 module.exports = {
   createTransaction: (req, res) => {
+    const { sender_id, receiver_id, value } = req.body;
+
     const circuitBreakerOptions = {
       timeout: 3000,
       errorThresholdPercentage: 50,
@@ -25,7 +27,12 @@ module.exports = {
       .on("success", () => console.log("SUCCESS"))
       .on("fallback", () => console.log("FALLBACK"))
       .fallback(() => {
-        return;
+        const transactionFallback = Transactions.create({
+          sender_id: sender_id,
+          receiver_id: receiver_id,
+          value: 0,
+        });
+        return transactionFallback;
       });
   },
 };
