@@ -9,8 +9,8 @@ async function httpCall() {
 }
 
 module.exports = {
-  createTransaction: (req, res) => {
-    const { sender_id, receiver_id, value } = req.body;
+  createTransaction: async (req, res) => {
+    const { senderId, receiverId, value } = req.body;
 
     const circuitBreakerOptions = {
       timeout: 3000,
@@ -24,12 +24,33 @@ module.exports = {
       .on("close", () => console.log("CLOSE"))
       .on("open", () => console.log("OPEN"))
       .on("halfOpen", () => console.log("HALF"))
-      .on("success", () => console.log("SUCCESS"))
+      .on("success", () => {
+        try {
+          const userTransaction = Transactions.create({
+            sender_id: senderId,
+            receiver_id: receiverId,
+            value: value,
+          });
+
+          const userSender = Users.findOne(senderId);
+          const userReceiver = Users.findOne(receiverId);
+
+          userSender.balance -= value;
+          userReceiver.balance += value;
+
+          return res.status(200).send({
+            message: "Transaction success",
+            data: userTransaction,
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      })
       .on("fallback", () => console.log("FALLBACK"))
       .fallback(() => {
         const transactionFallback = Transactions.create({
-          sender_id: sender_id,
-          receiver_id: receiver_id,
+          sender_id: senderId,
+          receiver_id: receiverId,
           value: 0,
         });
         return transactionFallback;
