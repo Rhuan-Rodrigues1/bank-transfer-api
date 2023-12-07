@@ -5,26 +5,8 @@ module.exports = {
     const { name, lastName, cpf, cnpj, email, password, typeUser, balance } =
       req.body;
 
-    if (Users.findOne(email)) {
-      res.status(400).send({
-        message: "email already exists !",
-      });
-    }
-
-    if (Users.findOne(cpf)) {
-      res.status(400).send({
-        message: "cpf already exists !",
-      });
-    }
-
-    if (Users.findOne(cnpj)) {
-      res.status(400).send({
-        message: "cnpj already exists !",
-      });
-    }
-
     try {
-      await Users.create({
+      const user = await Users.create({
         name: name,
         last_name: lastName,
         cpf: cpf,
@@ -35,9 +17,12 @@ module.exports = {
         balance: balance,
       });
 
-      res.status(200).send("Account create");
+      res.status(200).send({
+        message: "Account create",
+        data: user,
+      });
     } catch (error) {
-      throw new Error(error);
+      console.log(error);
     }
   },
 };
