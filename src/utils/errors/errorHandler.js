@@ -1,11 +1,7 @@
 class RequestError extends Error {
-  constructor(message, code, error) {
-    this.error = error;
-    this.code = code;
-
+  constructor(message) {
     super(message);
-    this.name = this.contructor.name;
-    Error.captureStackTrace(this, this.contructor);
+    this.name = "RequestError";
   }
 }
 

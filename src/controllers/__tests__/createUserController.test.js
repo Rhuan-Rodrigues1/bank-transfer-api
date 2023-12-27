@@ -21,6 +21,18 @@ describe("Test Contoller", () => {
     const res = await request(app).post("/create").send(dataUserCommon);
 
     expect(res.status).toBe(200);
-    expect(res.body.message).toBe(`Account create`);
+    expect(res.body.message).toBe({
+      message: "Account create",
+      data: {
+        name: "RhuanStore",
+        lastName: "Rodrigues",
+        cpf: "1231342353",
+        cnpj: "",
+        email: "asd2@asd",
+        password: "1233",
+        balance: 1000,
+        typeUser: "store",
+      },
+    });
   });
 });
